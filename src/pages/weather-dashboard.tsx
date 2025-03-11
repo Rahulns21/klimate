@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useGeolocation } from "@/hooks/use-geolocation";
 import { AlertTriangle, MapPin, RefreshCcw } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { useReverseGeocodeQuery } from "@/hooks/use-weather";
 
 export default function WeatherDashboard() {
     const { 
@@ -12,7 +13,8 @@ export default function WeatherDashboard() {
         isLoading: locationLoading, 
     } = useGeolocation();
 
-    console.log(coordinates);
+    const locationQuery = useReverseGeocodeQuery(coordinates);
+    console.log(locationQuery);
 
     const handleRefresh = () => {
         getLocation();
