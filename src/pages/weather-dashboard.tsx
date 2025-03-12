@@ -1,9 +1,9 @@
 import WeatherSkeleton from "@/components/loading-skeleton";
 import { Button } from "@/components/ui/button";
 import { useGeolocation } from "@/hooks/use-geolocation";
-import { AlertTriangle, MapPin, RefreshCcw } from "lucide-react";
+import { AlertTriangle, MapPin, RefreshCw } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { useReverseGeocodeQuery } from "@/hooks/use-weather";
+import { useForecastQuery, useReverseGeocodeQuery, useWeatherQuery } from "@/hooks/use-weather";
 
 export default function WeatherDashboard() {
     const { 
@@ -13,13 +13,16 @@ export default function WeatherDashboard() {
         isLoading: locationLoading, 
     } = useGeolocation();
 
+    const weatherQuery = useWeatherQuery(coordinates);
+    const forecastQuery = useForecastQuery(coordinates);
     const locationQuery = useReverseGeocodeQuery(coordinates);
-    console.log(locationQuery);
 
     const handleRefresh = () => {
         getLocation();
         if (coordinates) {
-            // reload weather data
+            weatherQuery.refetch();
+            forecastQuery.refetch();
+            locationQuery.refetch();
         }
     };
 
@@ -31,7 +34,7 @@ export default function WeatherDashboard() {
         return (
             <Alert variant="default">
                 <AlertTriangle className="h-4 w-4" />
-                <AlertTitle>Error</AlertTitle>
+                <AlertTitle>Location Error</AlertTitle>
                 <AlertDescription className="flex flex-col gap-4">
                     <p>{locationError}</p>
                     <Button onClick={getLocation} variant={"outline"} className="w-fit">
@@ -59,19 +62,42 @@ export default function WeatherDashboard() {
         )
     }
 
-    return <div>
-        {/* favorite cities */}
-        <div className="flex items-center justify-between">
-            <h1 className="text-xl font-bold tracking-tight">My Location</h1>
-            <Button variant={'outline'}
-                size={'icon'}
-                onClick={handleRefresh}
-            // disabled={}
-            >
-                <RefreshCcw />
-            </Button>
-        </div>
+    const locationName = locationQuery.data?.[0];
+    console.log(locationName);
 
-        {/* current and hourly weather */}
-    </div>
+    if (weatherQuery.error || forecastQuery.error) {
+        <Alert variant="default">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription className="flex flex-col gap-4">
+                <p>Failed to fetch weather data. Please try again.</p>
+                <Button onClick={handleRefresh} variant={"outline"} className="w-fit">
+                    <RefreshCw className="mr-2 h-4 w-4" />
+                    Retry
+                </Button>
+            </AlertDescription>
+        </Alert>
+    }
+
+    if (!weatherQuery.data || !forecastQuery.data) {
+        return <WeatherSkeleton />
+    }
+
+    return (
+        <div className="space-y-4">
+            {/* favorite cities */}
+            <div className="flex items-center justify-between">
+                <h1 className="text-xl font-bold tracking-tight">My Location</h1>
+                <Button variant={'outline'}
+                    size={'icon'}
+                    onClick={handleRefresh}
+                // disabled={}
+                >
+                    <RefreshCw />
+                </Button>
+            </div>
+
+            {/* current and hourly weather */}
+        </div>
+    )
 }
