@@ -91,13 +91,25 @@ export default function WeatherDashboard() {
                 <Button variant={'outline'}
                     size={'icon'}
                     onClick={handleRefresh}
-                // disabled={}
+                    disabled={weatherQuery.isFetching || forecastQuery.isFetching}
                 >
-                    <RefreshCw />
+                    <RefreshCw className={`h-4 w-4 ${
+                        weatherQuery.isFetching ? "animate-spin" : ""
+                    }`} />
                 </Button>
             </div>
 
-            {/* current and hourly weather */}
+            <div>
+                <div>
+                    {/* current weather */}
+                    {/* hourly temperature */}
+                </div>
+
+                <div>
+                    {/* details */}
+                    {/* forecast */}
+                </div>
+            </div>
         </div>
     )
 }
