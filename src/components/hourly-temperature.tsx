@@ -52,6 +52,13 @@ export default function HourlyTemperature({ data }: HourlyTemperatureProps) {
                                                         <span>{payload[0].value}°</span>
                                                     </div>
                                                 </div>
+
+                                                <div>
+                                                    <div>
+                                                        <span>Feels Like</span>
+                                                        <span>{payload[0].value}°</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         )
                                     }
