@@ -7,6 +7,7 @@ import { useForecastQuery, useReverseGeocodeQuery, useWeatherQuery } from "@/hoo
 import CurrentWeather from "@/components/current-weather";
 import HourlyTemperature from "@/components/hourly-temperature";
 import WeatherDetails from "@/components/weather-details";
+import WeatherForecast from "@/components/weather-forecast";
 
 export default function WeatherDashboard() {
     const { 
@@ -114,6 +115,7 @@ export default function WeatherDashboard() {
                     {/* details */}
                     <WeatherDetails data={weatherQuery.data} />
                     {/* forecast */}
+                    <WeatherForecast data={forecastQuery.data} />
                 </div>
             </div>
         </div>
