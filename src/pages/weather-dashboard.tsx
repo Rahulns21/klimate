@@ -6,6 +6,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useForecastQuery, useReverseGeocodeQuery, useWeatherQuery } from "@/hooks/use-weather";
 import CurrentWeather from "@/components/current-weather";
 import HourlyTemperature from "@/components/hourly-temperature";
+import WeatherDetails from "@/components/weather-details";
 
 export default function WeatherDashboard() {
     const { 
@@ -65,7 +66,6 @@ export default function WeatherDashboard() {
     }
 
     const locationName = locationQuery.data?.[0];
-    console.log(locationName);
 
     if (weatherQuery.error || forecastQuery.error) {
         <Alert variant="default">
@@ -112,6 +112,7 @@ export default function WeatherDashboard() {
 
                 <div className="grid gap-6 md:grid-cols-2 items-start">
                     {/* details */}
+                    <WeatherDetails data={weatherQuery.data} />
                     {/* forecast */}
                 </div>
             </div>

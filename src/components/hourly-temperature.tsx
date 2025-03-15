@@ -45,23 +45,28 @@ export default function HourlyTemperature({ data }: HourlyTemperatureProps) {
                                 content={({ active, payload }) => {
                                     if(active && payload && payload.length) {
                                         return (
-                                            <div>
-                                                <div>
-                                                    <div>
-                                                        <span>Temperature</span>
-                                                        <span>{payload[0].value}°</span>
+                                            <div className="rounded-lg border bg-background p-2 shadow-sm">
+                                                <div className="grid grid-cols-2 gap-2">
+                                                    <div className="flex flex-col">
+                                                        <span className="text-[0.70rem] uppercase
+                                                        text-muted-foreground">
+                                                            Temperature
+                                                        </span>
+                                                        <span className="font-bold">{payload[0].value}°</span>
                                                     </div>
-                                                </div>
 
-                                                <div>
-                                                    <div>
-                                                        <span>Feels Like</span>
-                                                        <span>{payload[0].value}°</span>
+                                                    <div className="flex flex-col">
+                                                        <span className="text-[0.70rem] uppercase
+                                                        text-muted-foreground">
+                                                            Feels Like
+                                                        </span>
+                                                        <span className="font-bold">{payload[0].value}°</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         )
                                     }
+                                    return null;
                                 }}
                             />
 
